@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Denuncias());
 }
 
-class MyApp extends StatelessWidget {
+class Denuncias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,92 +20,112 @@ class DenunciaScreen extends StatefulWidget {
 }
 
 class _DenunciaScreenState extends State<DenunciaScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController descripcionController = TextEditingController();
-  final TextEditingController ubicacionController = TextEditingController();
+  List<Denuncia> denuncias = [
+    Denuncia(
+      de: "De: Tu Nombre",
+      para: "Para: Entidad a la que se dirige la denuncia",
+      asunto: "Asunto: Breve descripción del asunto",
+      descripcion: "Descripción de la denuncia...",
+      fecha: "Fecha: 19 de Octubre de 2023",
+      hora: "Hora: 10:30 AM",
+    ),
+    Denuncia(
+      de: "De: Tu Nombre",
+      para: "Para: Entidad a la que se dirige la denuncia",
+      asunto: "Asunto: Breve descripción del asunto",
+      descripcion: "Descripción de la denuncia...",
+      fecha: "Fecha: 19 de Octubre de 2023",
+      hora: "Hora: 10:30 AM",
+    ),
+    Denuncia(
+      de: "De: Tu Nombre",
+      para: "Para: Entidad a la que se dirige la denuncia",
+      asunto: "Asunto: Breve descripción del asunto",
+      descripcion: "Descripción de la denuncia...",
+      fecha: "Fecha: 19 de Octubre de 2023",
+      hora: "Hora: 10:30 AM",
+    ),
+    Denuncia(
+      de: "De: Tu Nombre",
+      para: "Para: Entidad a la que se dirige la denuncia",
+      asunto: "Asunto: Breve descripción del asunto",
+      descripcion: "Descripción de la denuncia...",
+      fecha: "Fecha: 19 de Octubre de 2023",
+      hora: "Hora: 10:30 AM",
+    ),
 
-  @override
-  void dispose() {
-    descripcionController.dispose();
-    ubicacionController.dispose();
-    super.dispose();
-  }
+    Denuncia(
+      de: "De: Tu Nombre",
+      para: "Para: Entidad a la que se dirige la denuncia",
+      asunto: "Asunto: Breve descripción del asunto",
+      descripcion: "Descripción de la denuncia...",
+      fecha: "Fecha: 19 de Octubre de 2023",
+      hora: "Hora: 10:30 AM",
+    ),
 
-  void _enviarDenuncia() {
-    if (_formKey.currentState!.validate()) {
-      // Realiza el envío de la denuncia aquí
-      final descripcion = descripcionController.text;
-      final ubicacion = ubicacionController.text;
-      // Simplemente imprime los datos en este ejemplo.
-      print("Descripción: $descripcion");
-      print("Ubicación: $ubicacion");
-      // En una aplicación real, enviarías estos datos a tu servidor o sistema.
-
-      // Limpia los campos después de enviar
-      descripcionController.clear();
-      ubicacionController.clear();
-
-      // Puedes proporcionar feedback visual al usuario aquí
-      showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(Duration(seconds: 2), () {
-            Navigator.of(context)
-                .pop(); // Cierra el cuadro de diálogo después de 2 segundos
-          });
-          return AlertDialog(
-            title: Text('Denuncia enviada'),
-            content: Text('Gracias por tu denuncia.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+    // Agrega más denuncias simuladas aquí
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Realizar Denuncia"),
+        title: Text("Mis Denuncias",
+            style: TextStyle(
+                color: const Color.fromARGB(255, 0, 0, 0),
+                fontWeight: FontWeight.w700)),
+        backgroundColor: Color.fromARGB(255, 3, 118, 212),
       ),
+      backgroundColor: Color.fromARGB(135, 155, 154, 154),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: descripcionController,
-                decoration:
-                    InputDecoration(labelText: 'Descripción de la denuncia'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, ingresa una descripción.';
-                  }
-                  return null;
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: denuncias.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color.fromARGB(255, 189, 188,
+                        188), // Cambia el color de fondo de la Card a rojo
+                    child: ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(denuncias[index].de),
+                          Text(denuncias[index].para),
+                          Text(denuncias[index].asunto),
+                          Text(denuncias[index].descripcion),
+                          Text(denuncias[index].fecha),
+                          Text(denuncias[index].hora),
+                        ],
+                      ),
+                    ),
+                  );
                 },
               ),
-              TextFormField(
-                controller: ubicacionController,
-                decoration: InputDecoration(labelText: 'Ubicación'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _enviarDenuncia,
-                child: Text("Enviar Denuncia"),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class Denuncia {
+  final String de;
+  final String para;
+  final String asunto;
+  final String descripcion;
+  final String fecha;
+  final String hora;
+
+  Denuncia({
+    required this.de,
+    required this.para,
+    required this.asunto,
+    required this.descripcion,
+    required this.fecha,
+    required this.hora,
+  });
 }
